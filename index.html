@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Sister 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blush: #f7c5d0;
+    --rose: #e8728c;
+    --deep: #c0395a;
+    --petal: #fdf0f4;
+    --gold: #f0c080;
+    --soft: #fff8fb;
+    --text: #3a2030;
+    --muted: #8a5570;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--soft);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── Floating petals ── */
+  .petal-wrap { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+  .petal {
+    position: absolute;
+    top: -60px;
+    font-size: 1.4rem;
+    animation: fall linear infinite;
+    opacity: 0.7;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ── Hero ── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(160deg, #ffe4ef 0%, #fdf0f4 50%, #fff8fb 100%);
+    z-index: 1;
+  }
+
+  .hero-emoji { font-size: 4rem; animation: pulse 2.2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{transform:scale(1);} 50%{transform:scale(1.15);} }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    color: var(--deep);
+    margin: 0.5rem 0 0.2rem;
+    line-height: 1.2;
+  }
+
+  .hero-sub {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .scroll-hint {
+    margin-top: 2.5rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    animation: bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(8px);} }
+
+  /* ── Memories ribbon ── */
+  #memories {
+    position: relative;
+    z-index: 1;
+    background: white;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .section-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rose);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--deep);
+    margin-bottom: 2.5rem;
+  }
+
+  .memory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.2rem;
+    max-width: 800px;
+    margin: 0 auto 2rem;
+  }
+
+  .memory-card {
+    background: linear-gradient(135deg, #fff0f5, #ffeef7);
+    border: 1.5px solid var(--blush);
+    border-radius: 18px;
+    padding: 1.4rem 1.2rem;
+    transition: transform 0.25s, box-shadow 0.25s;
+    cursor: default;
+  }
+
+  .memory-card:hover { transform: translateY(-4px) rotate(-1deg); box-shadow: 0 8px 28px #e8728c22; }
+
+  .memory-card .mc-emoji { font-size: 2.2rem; display: block; margin-bottom: 0.6rem; }
+  .memory-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.55; }
+
+  /* ── Forgiveness section ── */
+  #forgive {
+    position: relative;
+    z-index: 1;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, #fff8fb, #ffeef5);
+    text-align: center;
+  }
+
+  .forgive-q {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--deep);
+    margin-bottom: 0.6rem;
+  }
+
+  .forgive-sub { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; }
+
+  .btn-wrap {
+    display: flex;
+    gap: 1.4rem;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .btn-yes, .btn-no {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    padding: 0.85rem 2.6rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.06em;
+  }
+
+  .btn-yes {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: white;
+    box-shadow: 0 6px 24px #e8728c55;
+  }
+  .btn-yes:hover { transform: scale(1.07); box-shadow: 0 10px 30px #e8728c77; }
+
+  .btn-no {
+    background: white;
+    color: var(--rose);
+    border: 2px solid var(--blush);
+    box-shadow: 0 4px 14px #e8728c18;
+    position: absolute; /* Will be repositioned by JS */
+    transition: none; /* Disable CSS transition so JS can control */
+  }
+
+  /* ── Letter / greeting card ── */
+  #card-section {
+    position: relative;
+    z-index: 1;
+    display: none;
+    padding: 3rem 1.5rem 5rem;
+    background: linear-gradient(180deg, #ffeef5, #fff8fb);
+  }
+
+  .card {
+    max-width: 700px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 28px;
+    padding: 3rem 2.8rem;
+    box-shadow: 0 20px 70px #e8728c22, 0 2px 12px #e8728c11;
+    border: 1.5px solid #f7c5d0;
+    position: relative;
+    overflow: hidden;
+    animation: cardIn 0.8s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes cardIn { from{opacity:0;transform:translateY(40px) scale(0.97);} to{opacity:1;transform:none;} }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--rose), var(--gold), var(--rose));
+  }
+
+  .card-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--deep);
+    margin-bottom: 1.8rem;
+    text-align: center;
+  }
+
+  .card-line {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text);
+    opacity: 0;
+    transform: translateX(-18px);
+    transition: opacity 0.5s, transform 0.5s;
+  }
+  .card-line.visible { opacity: 1; transform: none; }
+  .card-line .em { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+
+  .card-footer-text {
+    margin-top: 2rem;
+    text-align: center;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--rose);
+    line-height: 1.8;
+  }
+
+  .confetti-btn {
+    display: block;
+    margin: 2.5rem auto 0;
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.85rem 2.4rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    box-shadow: 0 6px 24px #e8728c55;
+    transition: transform 0.2s;
+  }
+  .confetti-btn:hover { transform: scale(1.06); }
+
+  /* ── Footer ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: var(--deep);
+    color: #ffe4ef;
+    text-align: center;
+    padding: 1.8rem 1rem;
+    font-size: 0.92rem;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Confetti canvas ── */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  /* ── Music note tooltip ── */
+  .music-note {
+    position: fixed;
+    bottom: 1.2rem;
+    right: 1.4rem;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 50;
+    filter: drop-shadow(0 2px 6px #e8728c88);
+    animation: wiggle 3s ease-in-out infinite;
+  }
+  @keyframes wiggle { 0%,100%{transform:rotate(-8deg);} 50%{transform:rotate(8deg);} }
+  .music-tip {
+    position: fixed;
+    bottom: 4rem;
+    right: 1rem;
+    background: var(--deep);
+    color: white;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    border-radius: 20px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+  .music-note:hover + .music-tip { opacity: 1; }
+
+  /* ── Sparkle trail ── */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.1rem;
+    z-index: 60;
+    animation: sparkle-fade 0.8s ease-out forwards;
+  }
+  @keyframes sparkle-fade { from{opacity:1;transform:scale(1);} to{opacity:0;transform:scale(0) translateY(-20px);} }
+
+  @media (max-width: 480px) {
+    .card { padding: 2rem 1.4rem; }
+    .btn-no { font-size: 1rem; padding: 0.75rem 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div class="petal-wrap" id="petalWrap"></div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-emoji">💌</div>
+  <h1 class="hero-title">Hey Sis,<br>This One's For You</h1>
+  <p class="hero-sub">...because you deserve more than just "I'm sorry"</p>
+  <div style="width:60px;height:3px;background:linear-gradient(90deg,var(--rose),var(--gold));border-radius:2px;margin:0 auto 1rem;"></div>
+  <p style="max-width:480px;color:var(--muted);line-height:1.75;font-size:1rem;">
+    I couldn't just text you. You're worth more than two words and an emoji sent out of guilt. So I built you this — every pixel placed with love and a lot of regret. 🌸
+  </p>
+  <div class="scroll-hint">↓ &nbsp; scroll down &nbsp; ↓</div>
+</section>
+
+<!-- ── MEMORIES ── -->
+<section id="memories">
+  <p class="section-label">What I know for certain</p>
+  <h2 class="section-title">Why You're One in a Million</h2>
+  <div class="memory-grid">
+    <div class="memory-card">
+      <span class="mc-emoji">🛡️</span>
+      <p>You've had my back in moments when nobody else even noticed I needed help.</p>
+    </div>
+    <div class="memory-card">
+      <span class="mc-emoji">😂</span>
+      <p>You're the only person who can make me laugh until I can't breathe and cry at the same time.</p>
+    </div>
+    <div class="memory-card">
+      <span class="mc-emoji">🌙</span>
+      <p>Those late-night talks we had? I carry them with me. They shaped who I am.</p>
+    </div>
+    <div class="memory-card">
+      <span class="mc-emoji">🎂</span>
+      <p>You always remember the small things — the dates, the preferences, the details. You pay attention.</p>
+    </div>
+    <div class="memory-card">
+      <span class="mc-emoji">💪</span>
+      <p>You're stronger than you think, kinder than you give yourself credit for, and braver than you know.</p>
+    </div>
+    <div class="memory-card">
+      <span class="mc-emoji">🌟</span>
+      <p>The world is genuinely better because you're in it. And so is my life, every single day.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FORGIVENESS QUESTION ── -->
+<section id="forgive">
+  <p class="section-label">The Big Question</p>
+  <h2 class="forgive-q">Will you forgive me? 🥺</h2>
+  <p class="forgive-sub">No pressure... but also a tiny bit of pressure 😅</p>
+  <div class="btn-wrap" id="btnWrap">
+    <button class="btn-yes" id="btnYes" onclick="handleYes()">💗 Yes!</button>
+    <button class="btn-no" id="btnNo" onclick="handleNo()">Nope 🙅‍♀️</button>
+  </div>
+  <p id="noCount" style="margin-top:1.5rem;color:var(--muted);font-size:0.88rem;min-height:1.2em;"></p>
+</section>
+
+<!-- ── GREETING CARD ── -->
+<section id="card-section">
+  <p class="section-label" style="text-align:center;">From My Heart</p>
+  <h2 class="section-title" style="text-align:center;">A Letter I Wish I'd Said Sooner</h2>
+  <div class="card" id="theCard">
+    <p class="card-header">💖 Dear Sister,</p>
+    <div class="card-line" id="cl0"><span class="em">😔</span><span>I know I hurt and upset you because of what I said/did.</span></div>
+    <div class="card-line" id="cl1"><span class="em">🙏</span><span>I'm not trying to make excuses. I was wrong.</span></div>
+    <div class="card-line" id="cl2"><span class="em">💔</span><span>I understand why you felt hurt, disappointed, or angry, and I'm truly sorry for making you feel that way.</span></div>
+    <div class="card-line" id="cl3"><span class="em">🥺</span><span>I truly regret my actions and wish I had handled things differently.</span></div>
+    <div class="card-line" id="cl4"><span class="em">🌸</span><span>You're not just my sister — you're one of the most important people in my life.</span></div>
+    <div class="card-line" id="cl5"><span class="em">📸</span><span>When I think about all the times you've supported me, cared for me, and stood by my side, I feel even worse about hurting you.</span></div>
+    <div class="card-line" id="cl6"><span class="em">✨</span><span>I'll work on myself and make sure I don't repeat this mistake again.</span></div>
+    <div class="card-line" id="cl7"><span class="em">🤝</span><span>I hope you can forgive me, but I completely understand if you need some time.</span></div>
+    <div class="card-line" id="cl8"><span class="em">🌷</span><span>Thank you for always being there for me, even when I don't deserve it.</span></div>
+    <div class="card-line" id="cl9"><span class="em">❤️</span><span>I love you, and I don't want this mistake to come between us.</span></div>
+    <div class="card-line" id="cl10"><span class="em">💝</span><span>From the bottom of my heart, I'm sorry. You mean more to me than any argument, misunderstanding, or mistake. I take full responsibility for what happened, and I'll do my best to make things right. I hope that, when you're ready, you can find it in your heart to forgive me. 🫂💕🌹</span></div>
+    <div class="card-line" id="cl11"><span class="em">🎀</span><span>P.S. — You didn't have to forgive me, but you did. That says everything about the kind of person you are. I don't take that lightly. 💫</span></div>
+    <p class="card-footer-text">💖 Your Loving Brother 💖</p>
+    <button class="confetti-btn" onclick="launchConfetti()">🎉 Celebrate Us! 🎉</button>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  "Made with Love, Regret, Hope, and Endless Appreciation For My Sister ❤️"
+</footer>
+
+<!-- Music note easter egg -->
+<div class="music-note" id="musicNote" onclick="toggleMusic()" title="Play a little something">🎵</div>
+<span class="music-tip">Click for a little something 🎵</span>
+
+<script>
+  // ── Falling petals ──
+  const petalWrap = document.getElementById('petalWrap');
+  const petals = ['🌸','🌺','🌹','🌷','✨','💕','💗','🍀','⭐'];
+  function spawnPetal() {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.textContent = petals[Math.floor(Math.random() * petals.length)];
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.fontSize = (Math.random() * 1.2 + 0.8) + 'rem';
+    const dur = Math.random() * 8 + 7;
+    p.style.animationDuration = dur + 's';
+    p.style.animationDelay = Math.random() * 4 + 's';
+    petalWrap.appendChild(p);
+    setTimeout(() => p.remove(), (dur + 4) * 1000);
+  }
+  for (let i = 0; i < 18; i++) setTimeout(spawnPetal, i * 400);
+  setInterval(spawnPetal, 2200);
+
+  // ── Sparkle cursor trail ──
+  const sparkles = ['✨','💖','🌸','⭐','💕'];
+  let lastSparkle = 0;
+  document.addEventListener('mousemove', e => {
+    if (Date.now() - lastSparkle < 120) return;
+    lastSparkle = Date.now();
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+    s.style.left = e.clientX + 'px';
+    s.style.top = e.clientY + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 900);
+  });
+
+  // ── Moving NO button ──
+  let noClickCount = 0;
+  const noMessages = [
+    "Nice try! 😜",
+    "Nuh-uh! 🏃‍♀️",
+    "You can't catch me!",
+    "Are you sureeee? 🥺",
+    "I'm moving! 😂",
+    "Oops, wrong button!",
+    "You keep missing!",
+    "Getting tired? 😆",
+    "Almost! (Not really 😅)",
+    "Just tap YES, bestie 💖"
+  ];
+
+  function moveNo() {
+    const btn = document.getElementById('btnNo');
+    const section = document.getElementById('forgive');
+    const rect = section.getBoundingClientRect();
+    const w = section.offsetWidth;
+    const h = section.offsetHeight;
+    const bw = btn.offsetWidth + 20;
+    const bh = btn.offsetHeight + 20;
+    const newLeft = Math.random() * (w - bw) + 10;
+    const newTop = Math.random() * (h - bh) + 10;
+    btn.style.position = 'absolute';
+    btn.style.left = newLeft + 'px';
+    btn.style.top = newTop + 'px';
+    btn.style.zIndex = '10';
+    // ensure section is relative
+    section.style.position = 'relative';
+  }
+
+  function handleNo() {
+    noClickCount++;
+    moveNo();
+    const msg = noMessages[Math.min(noClickCount - 1, noMessages.length - 1)];
+    document.getElementById('noCount').textContent = msg + '  (Attempts: ' + noClickCount + ')';
+    // shake the yes button
+    const yes = document.getElementById('btnYes');
+    yes.style.animation = 'pulse 0.4s ease';
+    setTimeout(() => yes.style.animation = '', 500);
+  }
+
+  // also dodge on hover (touch-friendly cheat prevention)
+  document.getElementById('btnNo').addEventListener('mouseenter', moveNo);
+
+  function handleYes() {
+    document.getElementById('forgive').style.display = 'none';
+    const cs = document.getElementById('card-section');
+    cs.style.display = 'block';
+    cs.scrollIntoView({ behavior: 'smooth' });
+    revealCardLines();
+    launchConfetti();
+  }
+
+  // ── Reveal card lines one by one ──
+  function revealCardLines() {
+    const lines = document.querySelectorAll('.card-line');
+    lines.forEach((line, i) => {
+      setTimeout(() => line.classList.add('visible'), i * 280);
+    });
+  }
+
+  // ── Confetti ──
+  const canvas = document.getElementById('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+  let confettiPieces = [];
+
+  function launchConfetti() {
+    const colors = ['#e8728c','#f7c5d0','#f0c080','#c0395a','#ffffff','#ffb3c8','#ffd6e7'];
+    for (let i = 0; i < 180; i++) {
+      confettiPieces.push({
+        x: Math.random() * canvas.width,
+        y: -20,
+        r: Math.random() * 7 + 3,
+        d: Math.random() * 180,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        tilt: Math.random() * 10 - 5,
+        tiltAngle: 0,
+        tiltAngleInc: Math.random() * 0.07 + 0.05,
+        speed: Math.random() * 3 + 1.5,
+        shape: Math.random() > 0.4 ? 'rect' : 'circle'
+      });
+    }
+    animateConfetti();
+  }
+
+  function animateConfetti() {
+    if (!confettiPieces.length) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    confettiPieces.forEach(p => {
+      ctx.beginPath();
+      p.tiltAngle += p.tiltAngleInc;
+      p.y += p.speed;
+      p.x += Math.sin(p.d / 20);
+      p.tilt = Math.sin(p.tiltAngle) * 12;
+      ctx.fillStyle = p.color;
+      if (p.shape === 'rect') {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.tilt * Math.PI / 180);
+        ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+        ctx.restore();
+      } else {
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+    confettiPieces = confettiPieces.filter(p => p.y < canvas.height + 30);
+    if (confettiPieces.length) requestAnimationFrame(animateConfetti);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
+
+  // ── Scroll reveal for memories ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.memory-card').forEach((card, i) => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = `opacity 0.5s ${i * 0.1}s, transform 0.5s ${i * 0.1}s, box-shadow 0.25s, transform 0.25s`;
+    observer.observe(card);
+  });
+
+  // ── Music easter egg (Web Audio) ──
+  let audioCtx = null;
+  let playing = false;
+
+  function playNote(freq, start, dur) {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, audioCtx.currentTime + start);
+    gain.gain.linearRampToValueAtTime(0.18, audioCtx.currentTime + start + 0.05);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + start + dur);
+    osc.start(audioCtx.currentTime + start);
+    osc.stop(audioCtx.currentTime + start + dur + 0.1);
+  }
+
+  function toggleMusic() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const note = document.getElementById('musicNote');
+    if (playing) { playing = false; note.textContent = '🎵'; return; }
+    playing = true;
+    note.textContent = '🎶';
+    // Play a gentle arpeggio loop — C major: C E G A C'
+    const melody = [261.6, 329.6, 392, 440, 523.3, 440, 392, 329.6];
+    let t = 0;
+    function loop() {
+      if (!playing) return;
+      melody.forEach((f, i) => playNote(f, t + i * 0.32, 0.4));
+      t += melody.length * 0.32;
+      setTimeout(loop, melody.length * 320);
+    }
+    loop();
+  }
+</script>
+</body>
+</html>
